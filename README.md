@@ -5,16 +5,16 @@ Analyzing customer demographics and sentiment at point of sale of retail stores 
 
 ### 1. Capturing Customer Demographics at retail destinations
 
-![](/use case images/1.jpg/)
+![](https://github.com/harshseksaria1/Customer-analytics-with-AWS-Rekognition/blob/master/use%20case%20images/1.jpg)
 
 ### 2. Customer and network identification with facial recognition
 
-![](/use case images/2.jpg/)
+![](https://github.com/harshseksaria1/Customer-analytics-with-AWS-Rekognition/blob/master/use%20case%20images/2.jpg)
 
 ### 3. Product & service recommendations based on purchase history
 
-![](/use case images/3.jpg/)
+![](https://github.com/harshseksaria1/Customer-analytics-with-AWS-Rekognition/blob/master/use%20case%20images/3.jpg)
 
 ### 4. Security enhancement by identifying unknown persons
 
-![](/use case images/4.jpg/)
+![](https://github.com/harshseksaria1/Customer-analytics-with-AWS-Rekognition/blob/master/use%20case%20images/4.jpg)
