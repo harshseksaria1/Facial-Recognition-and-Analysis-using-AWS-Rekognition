@@ -15,6 +15,7 @@ from keras.preprocessing import image
 import mysql.connector as sql
 import pandas as pd
 import os
+import io
 
 from datetime import datetime
 
@@ -27,7 +28,7 @@ mydb = sql.connect(
 )
 print(mydb)
 
-
+maxfaces = 2
 
 umn_red = (25,0,122)
 umn_gold = (51,204,255)
@@ -41,6 +42,12 @@ with open('credentials.csv', 'r') as input:
     for line in reader:
         access_key_id = line[2]
         secret_access_key = line[3]
+        
+#Connecting to AWS Rekognition client
+client=boto3.client('rekognition',
+             aws_access_key_id = access_key_id,
+             aws_secret_access_key = secret_access_key,
+             region_name='us-east-1')
 
 # Encode target images for comparison
 def encode_images():
@@ -57,15 +64,10 @@ def encode_images():
         df = df.append({'fname':fname,'lname':lname,'bytes':source_bytes}, ignore_index=True)
     return df
 
-target_images = encode_images()
+#target_images = encode_images()
 
 # Face Matching
 def find_face(img_bytes, aws = False):
-
-    client=boto3.client('rekognition',
-                     aws_access_key_id = access_key_id,
-                     aws_secret_access_key = secret_access_key,
-                     region_name='us-east-1')
     fname = ""
     if aws == False:
         source_bytes = target_images
@@ -77,15 +79,8 @@ def find_face(img_bytes, aws = False):
                 fname = source_bytes['fname'][i]
     return fname
 
-            
 
-def face_search(img_bytes, collectionId = 'msba', threshold = 90, maxFaces = 1):
-    client=boto3.client('rekognition',
-                     aws_access_key_id = access_key_id,
-                     aws_secret_access_key = secret_access_key,
-                     region_name='us-east-1')
-
-  
+def face_search(img_bytes, collectionId = 'msba', threshold = 90, maxFaces = 1):  
     response=client.search_faces_by_image(CollectionId=collectionId,
                                 Image={'Bytes': img_bytes},
                                 FaceMatchThreshold=threshold,
@@ -96,12 +91,6 @@ def face_search(img_bytes, collectionId = 'msba', threshold = 90, maxFaces = 1):
         return fname
     except:
         return ""
-
-#Connecting to AWS Rekognition client
-client = boto3.client('rekognition',
-                     aws_access_key_id = access_key_id,
-                     aws_secret_access_key = secret_access_key,
-                     region_name='us-east-1')
 
 video_capture = cv2.VideoCapture(0)
 
@@ -122,25 +111,31 @@ while True:
     
     # Capture frame-by-frame
     ret, frame = video_capture.read()
-    cv2.imwrite("frame%d.jpg" % count, frame)
     
-    i = image.load_img("frame"+str(count)+".jpg")
-    imgWidth, imgHeight = i.size  
+    pil_img = Image.fromarray(frame)
+    stream = io.BytesIO()
+    pil_img.save(stream, format='JPEG')
+    bin_img = stream.getvalue()
+    imgWidth = 1280
+    imgHeight = 720
+    
+    #cv2.imwrite("frame%d.jpg" % count, frame)
+#    i = image.load_img("frame"+str(count)+".jpg")
+#    imgWidth, imgHeight = i.size  
     #draw = ImageDraw.Draw(i) 
    
-    with open("frame"+str(count)+".jpg", 'rb') as source_image:
-        source_bytes = source_image.read()
-    count += 1
+#    with open("frame"+str(count)+".jpg", 'rb') as source_image:
+#        source_bytes = source_image.read()
+#    count += 1
     
     response = client.detect_faces(
         Image={
-            'Bytes': source_bytes,
+            'Bytes': bin_img,
         },
         Attributes=['ALL']
     )
     
-    
-    for faceDetail in response['FaceDetails']:
+    for faceDetail in response['FaceDetails'][:maxfaces]:
         print('The detected face is a ' + str(faceDetail['Gender']['Value']) + ' between ' + str(faceDetail['AgeRange']['Low']) 
               + ' and ' + str(faceDetail['AgeRange']['High']) + ' years old')
         age_range = "Age: %s - %s" % (faceDetail['AgeRange']['Low'], faceDetail['AgeRange']['High'])
@@ -160,13 +155,13 @@ while True:
         h = int(height)
         
         cv2.rectangle(frame, (x, y), (x+w, y+h), green, 2)
-        cv2.putText(frame, "Number of faces detected: "+ \
-                    str(len(response['FaceDetails'])), (50,50), \
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, umn_red, 1)
+#        cv2.putText(frame, "Number of faces detected: "+ \
+#                    str(len(response['FaceDetails'])), (50,50), \
+#                    cv2.FONT_HERSHEY_SIMPLEX, 1, umn_red, 1)
         cv2.putText(frame, age_display ,(x+w+30, y+int(h/2)-15), \
                     cv2.FONT_HERSHEY_SIMPLEX, 1, umn_red,1,1)
         
-        name = face_search(source_bytes)
+        name = face_search(bin_img)
         
         comment_x = x+w+30
         comment_y = y+int(h/2)+15
@@ -228,24 +223,20 @@ while True:
 
         print(mycursor.rowcount, "record inserted.")
 
-        leaderboard_query = "SELECT name,count(timest) timespent" + \
-                        " FROM logs" + \
-                        " WHERE name not in ('')" + \
-                        " GROUP BY name" + \
-                        " ORDER BY timespent desc"+ \
-                        " LIMIT 5"
-                        
-        leaderboard = pd.read_sql(leaderboard_query, mydb)
-    
-    cv2.putText(frame, "Time Spent at Booth", \
-                    (50,200 - 30), \
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, umn_red, 1)
-    
-    for i in range(leaderboard.shape[0]):
-        cv2.putText(frame, str(leaderboard['name'][i]) + " - " + \
-                    str(leaderboard['timespent'][i]) + " seconds", \
-                    (50,200 + i*30), \
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, umn_red, 1)
+#        leaderboard_query = "SELECT count(timest) timespent" + \
+#                        " FROM logs" + \
+#                        " WHERE name = " + str(name)
+#                        
+#        leaderboard = pd.read_sql(leaderboard_query, mydb)
+#    
+#    cv2.putText(frame, "Time Spent at Booth", \
+#                    (50,200 - 30), \
+#                    cv2.FONT_HERSHEY_SIMPLEX, 1, umn_red, 1)
+#    
+#    cv2.putText(frame, str(leaderboard['name'][i]) + " - " + \
+#                str(leaderboard['timespent'][i]) + " seconds", \
+#                (50,200 + i*30), \
+#                cv2.FONT_HERSHEY_SIMPLEX, 1, umn_red, 1)
         
 
     cv2.imshow('Video', frame)
