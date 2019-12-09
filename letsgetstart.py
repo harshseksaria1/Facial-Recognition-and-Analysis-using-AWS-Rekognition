@@ -28,7 +28,7 @@ mydb = sql.connect(
 )
 print(mydb)
 
-maxfaces = 2
+maxfaces = 1
 
 umn_red = (25,0,122)
 umn_gold = (51,204,255)
@@ -220,7 +220,7 @@ while True:
         mycursor.execute(sql, val)
 
         mydb.commit()
-
+    
         print(mycursor.rowcount, "record inserted.")
 
 #        leaderboard_query = "SELECT count(timest) timespent" + \
