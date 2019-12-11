@@ -1,6 +1,6 @@
 # Facial Rekognition and Analysis using AWS Rekognition
 
-Facial Recognition & analyzing customer demographics and sentiment at point of sale of retail stores using AWS Rekognition.
+Facial Recognition & facial analysis for retail and security using AWS Rekognition.
 
 ![](images/_HAR6666-2.jpg)
 
