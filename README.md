@@ -73,6 +73,6 @@ Use the sample dashboard or create your own visualization from the MySQL databas
 
 Get in touch with us if you need help implementing or want to contribute to this project.
 
-![](images/_HAR6662-2.jpg)
+![](images/_HAR6762-2.jpg)
 
 (L-R) Harsh Seksaria, Hamed Khoojinian, Yingzi Wang, Yassine Manane, Peiyuan Wu
