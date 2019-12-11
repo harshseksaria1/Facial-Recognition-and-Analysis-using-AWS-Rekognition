@@ -68,3 +68,11 @@ Run letsgetstart.py which opens up your web camera and starts storing the data. 
 ### 5. Visualise on Tableau
 
 Use the sample dashboard or create your own visualization from the MySQL database.
+
+## Team
+
+Get in touch with us if you need help implementing or want to contribute to this project.
+
+![](images/_HAR6662-2.jpg)
+
+(L-R) Harsh Seksaria, Hamed Khoojinian, Yingzi Wang, Yassine Manane, Peiyuan Wu
