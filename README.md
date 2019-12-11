@@ -4,7 +4,9 @@ Facial Recognition & analyzing customer demographics and sentiment at point of s
 
 We’ve heard plenty about computer vision, in competitions, articles, and coursework, but we don’t actually run into many uses of this technology in our everyday lives. When we go to the mall, attend schools, travel through transit hubs, stay at hotels, or contemplate choices in prison, we almost never see computer vision in use, even in spite of decades of exceptional growth. We know there is great value in these tools, as manufacturing and tech have are rapidly employing computer vision with great returns.
 
-This is why, we built a simple computer vision platform anyone can deploy - for multiple use cases including retail, security, education, etc.. It's key features are:-
+This is why, we built a simple computer vision platform anyone can deploy - for multiple use cases including retail, security, education, etc. 
+
+**It's key features are:-**
 
 1. Recognize individuals with just 1 image as training data ~ 100% accuracy (LinkedIn Headshots used as example)
 2. Facial analysis including age, gender, sentiment, facial hair, and accessories such as glasses.
@@ -12,7 +14,7 @@ This is why, we built a simple computer vision platform anyone can deploy - for 
 4. Logs stored in MySQL database.
 5. Insights vidualized using Tableau.
 
-
+![](images/dashboard.png)
 
 ## Use Cases 
 
