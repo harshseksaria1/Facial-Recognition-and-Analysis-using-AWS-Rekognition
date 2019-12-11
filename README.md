@@ -18,6 +18,8 @@ This is why, we built a simple computer vision platform anyone can deploy - for 
 
 ## Use Cases 
 
+While this application has a diverse set of use cases, here are a few that we had in mind:-
+
 ### 1. Capturing Customer Demographics at retail destinations
 
 ![](https://github.com/harshseksaria1/Customer-analytics-with-AWS-Rekognition/blob/master/use%20case%20images/1.jpg)
