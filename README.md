@@ -18,7 +18,7 @@ We’ve heard plenty about computer vision, in competitions, articles, and cours
 
 ## Use Cases 
 
-While this application has a diverse set of use cases in security, retail and education, here are a few that we had in mind:-
+This application has a diverse set of use cases in security, retail and education. Here are a few examples:-
 
 ### 1. Capturing Customer Demographics at retail destinations
 
