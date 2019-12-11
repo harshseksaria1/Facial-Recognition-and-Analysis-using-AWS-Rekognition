@@ -1,6 +1,10 @@
 # Facial Rekognition and Analysis using AWS Rekognition
 
-Facial Recognition & analyzing customer demographics and sentiment at point of sale of retail stores using AWS Rekognition
+Facial Recognition & analyzing customer demographics and sentiment at point of sale of retail stores using AWS Rekognition.
+
+![](images/_HAR6666-2.jpg)
+
+[TOC]
 
 We’ve heard plenty about computer vision, in competitions, articles, and coursework, but we don’t actually run into many uses of this technology in our everyday lives. When we go to the mall, attend schools, travel through transit hubs, stay at hotels, or contemplate choices in prison, we almost never see computer vision in use, even in spite of decades of exceptional growth. We know there is great value in these tools, as manufacturing and tech have are rapidly employing computer vision with great returns.
 
